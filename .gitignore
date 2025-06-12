@@ -1,0 +1,67 @@
+.env
+build/
+.dart_tool
+.idea
+linux
+macos
+windows
+.flutter-plugins
+.flutter-plugins-dependencies
+analysis_options.yaml
+devtools_options.yaml
+pubspec.lock
+task_management_system.imls
+
+#flutter specific
+.DS_Store
+.dart_tool/
+.packages
+.pub/
+android/app/google-services.json
+.idea/
+android/key.properties
+doc/api/
+
+#ios specific
+ios/.generated/
+ios/Podfile*
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
+ios/Runner.xcworkspace/contents.xcworkspacedata
+
+#android specific
+
+# User-specific
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Gradle and Maven with auto-import
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+*.iml
+
+# File-based project format
+*.iws
+
+# IntelliJ
+out/
