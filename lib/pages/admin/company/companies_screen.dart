@@ -134,7 +134,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                                 ),
                               ),
                               Expanded(
-                                flex: 2,
+                                flex: 3,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [

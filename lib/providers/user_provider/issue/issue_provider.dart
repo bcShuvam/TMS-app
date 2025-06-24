@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_management_system/notification/noti_service.dart';
+import 'package:task_management_system/providers/custom_image_provider.dart';
 import 'package:task_management_system/routes/app_route_name.dart';
 import 'package:task_management_system/services/task_management_system_services.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,9 @@ import '../../../themes/custom_colors.dart';
 
 class IssueProvider extends ChangeNotifier {
   final AuthProvider authProvider;
+  final CustomImageProvider customImageProvider;
 
-  IssueProvider(this.authProvider);
+  IssueProvider(this.authProvider, this.customImageProvider);
 
   void testCallAuthInfo() {
     authProvider.printUserInfo(); // ✅ This works!
@@ -45,6 +47,7 @@ class IssueProvider extends ChangeNotifier {
     TMSResponse response = await TMSServices.getRequest('issue/company/${authProvider.companyId}');
     final decodedBody = jsonDecode(response.body)['issues'];
     _postFeeds = decodedBody;
+    print(_postFeeds);
     notifyListeners();
   }
 
@@ -123,7 +126,6 @@ class IssueProvider extends ChangeNotifier {
 
   void setImage(String imageName){
     _imageFileTextController.text = imageName;
-    print(_imageFileTextController);
     notifyListeners();
   }
 
@@ -141,6 +143,7 @@ class IssueProvider extends ChangeNotifier {
     _deadLineDateTimeTextController.clear();
     _deadLineDate = '';
     _deadLineTime = '';
+    customImageProvider.clearImage();
   }
 
   void getCategories() async {
@@ -221,17 +224,31 @@ class IssueProvider extends ChangeNotifier {
       },
     );
 
+    String imagePath = customImageProvider.selectedImage?.path ?? '';
+
     _body['companyId'] = authProvider.companyId;
     _body['mainAdminId'] = authProvider.mainAdminId;
     _body['categoryId'] = _selectedCategoryId;
     _body['subCategoryId'] = _selectedSubCategoryId;
     _body['createdById'] = authProvider.userId;
     _body['issueDetails'] = _descriptionTextController.value.text.trim();
-    _body['assignedUserId'] = _selectedAssignedToUserId;
+    if(_assignedToValue == _assignIssueList[2]){
+      _body['assignedUserId'] = authProvider.userId;
+    }else if(_assignedToValue == _assignIssueList[1]) {
+      _body['assignedUserId'] = _selectedAssignedToUserId;
+    }else{
+      _body['assignedUserId'] = '';
+    }
     _body['issueDeadlineDateTime'] = _deadLineDateTimeTextController.value.text.trim();
+    // if (customImageProvider.selectedImage == null || customImageProvider.selectedImage!.path.isEmpty) {
+    //   _imagePath = customImageProvider.selectedImage!.path;;
+    // } else {
+    //   _imageFileTextController.text = customImageProvider.selectedImage!.path.split('/').last;
+    //   _imagePath = '';
+    // }
     print(_body);
     if(_createFormKey.currentState != null && _createFormKey.currentState!.validate()){
-      TMSResponse response = await TMSServices.postRequest('issue/create/${authProvider.userId}', _body);
+      TMSResponse response = await TMSServices.postFilesRequest('issue/create/${authProvider.userId}', _body, imagePath);
       final decodedBody = jsonDecode(response.body);
       if(response.statusCode == 201){
         print(response.statusCode);
@@ -250,7 +267,6 @@ class IssueProvider extends ChangeNotifier {
       Navigator.pop(context);
       NotiService().showNotification(title: 'Create Issue Failed', body: 'Please fill all the required fields.');
     }
-    Navigator.pop(context);
     notifyListeners();
   }
 

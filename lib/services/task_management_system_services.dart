@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,7 +20,7 @@ class TMSServices {
 
   static String localURL = dotenv.env['LOCAL_API'].toString();
   static String remoteURL = dotenv.env['REMOTE_API'].toString();
-  static bool isServer = false;
+  static bool isServer = true;
   static String apiURL = isServer ? remoteURL : localURL;
 
   // Store the JWT token
@@ -64,6 +65,39 @@ class TMSServices {
           print("JWT token stored: $authToken");
         }
       }
+
+      return TMSResponse(statusCode: response.statusCode, body: response.body);
+    } catch (err) {
+      return TMSResponse(statusCode: 500, body: err.toString());
+    }
+  }
+
+  static Future<TMSResponse> postFilesRequest(String path, Map<String, dynamic> body, String imagePath) async {
+    try {
+      print('$apiURL$path');
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('$apiURL$path'),
+      );
+
+      // Add fields
+      body.forEach((key, value) {
+        request.fields[key] = value;
+      });
+
+      // Only add file if imagePath is not empty
+      if (imagePath.isNotEmpty) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'issueImage',
+          imagePath,
+          filename: imagePath.split('/').last,
+        ));
+      }
+
+      request.headers.addAll(getHeaders());
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
       return TMSResponse(statusCode: response.statusCode, body: response.body);
     } catch (err) {

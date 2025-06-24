@@ -266,8 +266,10 @@ class UserProvider extends ChangeNotifier {
     );
     final decodedBody = jsonDecode(response.body);
     if (response.statusCode == 200) {
+      print(response.body);
       _users = decodedBody['users'];
     } else {
+      _users.clear();
       NotiService().showNotification(
         title: 'Task Management System',
         body: decodedBody['message'],

@@ -114,7 +114,7 @@ class _IssueDetailsScreenState extends State<IssueDetailsScreen> {
                   ),
                   _buildLabelValue(
                     'Assigned At',
-                    issue['issueAssignedDatetime'].toString(),
+                    '${issue['issueAssignedDatetime'].toString().split('T')[0]} ${issue['issueAssignedDatetime'].toString().split('T')[1].substring(0, 5)}',
                   ),
                   _buildLabelValue('Comment', issue['comment']),
                   _buildLabelValue('Total Time', issue['totalTime'].toString()),

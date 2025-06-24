@@ -36,12 +36,15 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
       appBar: _appBar(),
       drawer: CustomUserDrawer(isDashboardActive: true),
       body: _body(),
-      floatingActionButton: FloatingActionButton.small(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           GoRouter.of(context).pushNamed(AppRouteName.userCreateIssueRouteName);
         },
+        icon: const Icon(FontAwesomeIcons.plus, color: Colors.black),
+        label: CustomText(text: "Create Issue", isContent: true,),
         backgroundColor: CustomColors.primaryColor,
-        child: Icon(FontAwesomeIcons.plus, color: Colors.black),
+        foregroundColor: Colors.black,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -67,7 +70,8 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
           },
           color: CustomColors.primaryBlack,
           backgroundColor: CustomColors.primaryColor,
-          child: ListView.builder(
+          child: issueProvider.postFeeds.isNotEmpty
+              ? ListView.builder(
             itemCount: issueProvider.postFeeds.length,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             itemBuilder: (context, index) {
@@ -116,7 +120,13 @@ class _UserDashboardScreenState extends State<UserDashboardScreen> {
                 ),
               );
             },
-          ),
+          ) : Center(
+        child: CustomText(
+        text: 'No tasks found',
+          isHeading: true,
+          color: CustomColors.primaryBlack,
+        ),
+        ),
         );
       },
     );

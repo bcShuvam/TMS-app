@@ -12,6 +12,13 @@ class CustomImageProvider extends ChangeNotifier{
   bool get uploadingImage => _uploadingImage;
   String get imageName => _imageName;
 
+  void clearImage() {
+    _selectedImage = null;
+    _uploadingImage = false;
+    _imageName = '';
+    notifyListeners();
+  }
+
   Future pickImageFromGallery() async {
     final returnedImage =
     await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -19,6 +26,7 @@ class CustomImageProvider extends ChangeNotifier{
     if (returnedImage == null) return;
     _selectedImage = File(returnedImage!.path);
     _imageName = returnedImage.name;
+    print('Image Name: $_imageName');
     notifyListeners();
   }
 

@@ -95,7 +95,15 @@ class _CreateUpdateAdminScreenState extends State<CreateUpdateAdminScreen> {
                               createUpdateAdminProvider.emailTextController,
                           labelText: 'email *',
                           validator: (value) {
-                            return value!.isEmpty ? 'Email is required' : null;
+                            String pattern =
+                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                            RegExp regex = RegExp(pattern);
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            } else if (!regex.hasMatch(value)) {
+                              return 'Enter a valid email address';
+                            }
+                            return null;
                           },
                         ),
                         const SizedBox(height: 12),

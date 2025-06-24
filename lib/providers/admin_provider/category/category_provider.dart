@@ -21,6 +21,9 @@ class CategoryProvider extends ChangeNotifier {
   TextEditingController _categoryNameTextController = TextEditingController();
   TextEditingController _categoryDescriptionTextController =
       TextEditingController();
+  TextEditingController _subCategoryNameTextController = TextEditingController();
+  TextEditingController _subCategoryDescriptionTextController =
+      TextEditingController();
   Map<String, dynamic> _body = {};
 
   GlobalKey get formKey => _formKey;
@@ -29,6 +32,10 @@ class CategoryProvider extends ChangeNotifier {
       _categoryNameTextController;
   TextEditingController get categoryDescriptionTextController =>
       _categoryDescriptionTextController;
+  TextEditingController get subCategoryNameTextController =>
+      _subCategoryNameTextController;
+  TextEditingController get subCategoryDescriptionTextController =>
+      _subCategoryDescriptionTextController;
 
   //// Companies
   List<String> _companyList = [];
@@ -305,8 +312,8 @@ class CategoryProvider extends ChangeNotifier {
 
   ///// Sub Categories
   void createSubCategory(context) async {
-    _body['subCategoryName'] = _categoryNameTextController.text.trim();
-    _body['description'] = _categoryDescriptionTextController.text.trim();
+    _body['subCategoryName'] = _subCategoryNameTextController.text.trim();
+    _body['description'] = _subCategoryNameTextController.text.trim();
     _body['categoryId'] = _selectedCategoryId;
     _body['adminId'] = authProvider.mainAdminId;
     _body['companyId'] = _category[selectedCategoryIndex]['companyId'];
@@ -360,14 +367,14 @@ class CategoryProvider extends ChangeNotifier {
     print(_isEditSubCat);
     print(subCat);
     _selectedSubCatId = subCat['_id'];
-    _categoryNameTextController.text = subCat['subCategoryName'];
-    _categoryDescriptionTextController.text = subCat['description'];
+    _subCategoryNameTextController.text = subCat['subCategoryName'];
+    _subCategoryDescriptionTextController.text = subCat['description'];
     notifyListeners();
   }
 
   void updateSubCategory(context) async {
-    _body['subCategoryName'] = _categoryNameTextController.text.trim();
-    _body['description'] = _categoryDescriptionTextController.text.trim();
+    _body['subCategoryName'] = _subCategoryNameTextController.text.trim();
+    _body['description'] = _subCategoryDescriptionTextController.text.trim();
     _body['companyId'] = _selectedCompanyId;
 
     showDialog(
