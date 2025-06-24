@@ -235,7 +235,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                         const SizedBox(height: 12,),
                         CustomTextFromField(
                           controller:
-                          categoryProvider.categoryNameTextController,
+                          categoryProvider.subCategoryNameTextController,
                           autoFocus: false,
                           hintText: 'Name',
                           labelText: 'Sub Category Name *',
@@ -252,7 +252,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                         const SizedBox(height: 16),
                         CustomTextFromField(
                           controller:
-                          categoryProvider.categoryDescriptionTextController,
+                          categoryProvider.subCategoryDescriptionTextController,
                           autoFocus: false,
                           hintText: 'Description',
                           labelText: 'Description *',

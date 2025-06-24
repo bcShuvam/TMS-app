@@ -31,7 +31,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
     return Scaffold(
       backgroundColor: CustomColors.primaryWhite,
       appBar: _appBar(),
-      body: _body(),
+      body: _body(context),
     );
   }
 
@@ -50,7 +50,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
     );
   }
 
-  Widget _body() {
+  Widget _body(context) {
     return Consumer<UserProvider>(
       builder: (context, userProvider, _) {
         return RefreshIndicator(
@@ -74,7 +74,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                       },
                     ),
                   ),
-                  ListView.builder(
+                  userProvider.users.isNotEmpty ? ListView.builder(
                     shrinkWrap: true,
                     primary: false,
                     physics: const BouncingScrollPhysics(),
@@ -162,7 +162,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                         ),
                       );
                     },
-                  ),
+                  ) : SizedBox(height: MediaQuery.of(context).size.height * 0.6,child: Center(child: CustomText(text: 'User not found', isSubHeading: true,),)),
                 ],
               ),
             ),

@@ -150,9 +150,8 @@ class _CreateIssueScreenState extends State<CreateIssueScreen> {
                           applySuffixIcon: true,
                           suffixIcon: InkWell(
                             onTap: () {
-                              imageProvider.pickImageFromGallery();
+                              imageProvider.pickImageFromCamera();
                               issueProvider.setImage(imageProvider.imageName);
-                              print('Tapped on icon');
                             },
                             child: Icon(FontAwesomeIcons.camera),
                           ),

@@ -181,6 +181,7 @@ class AuthProvider extends ChangeNotifier {
     );
 
     TMSResponse response = await TMSServices.postRequest('auth/login', _body, isLogin: true);
+    print(response.body);
     Map<String, dynamic> decodedBody = jsonDecode(response.body);
     print('decodedBody = $decodedBody');
     if (response.statusCode == 200) {

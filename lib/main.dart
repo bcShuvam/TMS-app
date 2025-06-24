@@ -43,9 +43,16 @@ class MyApp extends StatelessWidget {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => AuthProvider()),
-            ChangeNotifierProxyProvider<AuthProvider, IssueProvider>(
-              create: (context) => IssueProvider(context.read<AuthProvider>()),
-              update: (context, auth, previous) => IssueProvider(auth),
+            ChangeNotifierProvider(create: (context) => CustomImageProvider()), // 👈 Move this up here
+            ChangeNotifierProxyProvider2<AuthProvider, CustomImageProvider, IssueProvider>(
+              create: (context) => IssueProvider(
+                context.read<AuthProvider>(),
+                context.read<CustomImageProvider>(),
+              ),
+              update: (context, auth, imageProvider, previous) => IssueProvider(
+                auth,
+                imageProvider,
+              ),
             ),
             ChangeNotifierProxyProvider<AuthProvider, CreateUpdateAdminProvider>(
               create: (context) => CreateUpdateAdminProvider(context.read<AuthProvider>()),

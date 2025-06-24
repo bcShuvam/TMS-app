@@ -102,7 +102,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           validator: (value) {
                             return value!.isEmpty
                                 ? 'otp required'
-                                : value.length < 5
+                                : value.length < 6
                                 ? 'invalid otp'
                                 : null;
                           },
