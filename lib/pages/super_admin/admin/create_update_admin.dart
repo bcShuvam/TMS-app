@@ -169,12 +169,14 @@ class _CreateUpdateAdminScreenState extends State<CreateUpdateAdminScreen> {
                         CustomTextFromField(
                           controller:
                           createUpdateAdminProvider.expirationDateTextController,
+                          readOnly: true,
                           labelText: 'Expiration Date *',
                           // prefixIcon: Icon(Icons.lock, color: Colors.grey.shade600),
                           applySuffixIcon: true,
                           suffixIcon: InkWell(
                             onTap: () {
-                              createUpdateAdminProvider.selectDate(context);
+                              // createUpdateAdminProvider.selectDate(context);
+                              // print('Tapped');
                             },
                             child: Icon(Icons.calendar_month,
                             ),

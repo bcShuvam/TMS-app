@@ -17,7 +17,7 @@ class NotiService {
     // Init timezone
     tz.initializeTimeZones();
     final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    tz.setLocalLocation(tz.getLocation('Asia/Kathmandu'));
 
     // Android init settings
     const initSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');  // Use the correct icon reference

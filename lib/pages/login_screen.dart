@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:task_management_system/notification/noti_service.dart';
 import 'package:task_management_system/providers/auth_provider.dart';
@@ -8,6 +11,7 @@ import 'package:task_management_system/widgets/appbar/custom_appbar.dart';
 import 'package:task_management_system/widgets/button/custom_elevated_button.dart';
 import 'package:task_management_system/widgets/text_from_field/custom_text_form_field.dart';
 import 'package:task_management_system/widgets/texts/custom_text.dart';
+// import 'package:timezone/browser.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,19 +23,109 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKeyAdmin = GlobalKey<FormState>();
 
+  // final FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+  //
+  // @override
+  // void initState() {
+  //   init();
+  //   super.initState();
+  // }
+  //
+  // Future<void> init() async {
+  //   initializeTimeZone();
+  //
+  //   setLocalLocation(
+  //     getLocation('Asia/Kathmandu'),
+  //   );
+  //
+  //   const androidSettings = AndroidInitializationSettings('@mipmap/launcher_icon');
+  //   const DarwinInitializationSettings isoSettings = DarwinInitializationSettings();
+  //
+  //   const InitializationSettings initializationSettings = InitializationSettings(
+  //     android: androidSettings,
+  //     iOS: isoSettings,
+  //   );
+  //
+  //   await notificationsPlugin.initialize(
+  //       initializationSettings
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          FocusScope.of(context).unfocus();
+    return PopScope(
+      canPop: false,
+      onPopInvoked: ((didpop) {
+        if (didpop) {
+          return;
         }
-      },
-      child: Scaffold(
-        appBar: _appBar(),
-        body: _body(),
-        backgroundColor: CustomColors.primaryWhite,
+        SystemNavigator.pop();
+        exit(0);
+        // showDialog(
+        //   context: context,
+        //   builder: (_) {
+        //     return AlertDialog(
+        //       elevation: 10,
+        //       backgroundColor: CustomColors.primaryWhite,
+        //       title: CustomText(
+        //         text: 'Exit',
+        //         fontWeight: FontWeight.bold,
+        //         size: 24.0,
+        //         color: Colors.red,
+        //       ),
+        //       content: CustomText(
+        //         text: 'Are you sure you want to exit ?',
+        //         fontWeight: FontWeight.w500,
+        //       ),
+        //       actions: [
+        //         Row(
+        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //           children: [
+        //             CustomElevatedButton(
+        //               onPressed: () {
+        //                 Navigator.pop(context, false);
+        //               },
+        //               // backgroundColor: Colors.green,
+        //               borderColor: CustomColors.primaryBlack,
+        //               widget: CustomText(
+        //                 text: 'No',
+        //                 fontWeight: FontWeight.w500,
+        //                 color: CustomColors.primaryBlack,
+        //               ),
+        //             ),
+        //             CustomElevatedButton(
+        //               onPressed: () {
+        //                 Navigator.pop(context, true);
+        //                 SystemNavigator.pop();
+        //                 exit(0);
+        //               },
+        //               // backgroundColor: Colors.red,
+        //               borderColor: Colors.red,
+        //               widget: CustomText(
+        //                 text: 'Yes',
+        //                 fontWeight: FontWeight.w500,
+        //                 color: Colors.red,
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
+      }),
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            FocusScope.of(context).unfocus();
+          }
+        },
+        child: Scaffold(
+          appBar: _appBar(),
+          body: _body(),
+          backgroundColor: CustomColors.primaryWhite,
+        ),
       ),
     );
   }

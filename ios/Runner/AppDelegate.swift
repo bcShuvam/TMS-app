@@ -12,15 +12,16 @@ import flutter_local_notifications
   ) -> Bool {
   // add this ..
   FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
-  GeneratedPluginRegistrant.register(with: registry)}
+  GeneratedPluginRegistrant.register(with: registry)
+  }
 
-    GeneratedPluginRegistrant.register(with: self)
+  GeneratedPluginRegistrant.register(with: self)
 
-    // add this.
-    if #available(iOS 10.0, *){
-        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
-    }
+  // add this.
+  if #available(iOS 10.0, *){
+    UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+  }
 
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

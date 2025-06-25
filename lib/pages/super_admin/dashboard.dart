@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -27,12 +30,71 @@ class _SuperAdminDashboardScreenState extends State<SuperAdminDashboardScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   SuperAdminDashboardProvider? supAdminDashProvider;
 
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
   @override
-  void initState(){
+  void initState() async {
     super.initState();
     supAdminDashProvider = Provider.of<SuperAdminDashboardProvider>(context, listen: false);
     supAdminDashProvider!.getAdmins();
     supAdminDashProvider!.getSubscriptions();
+    _initializeNotifications();
+    super.initState();
+  }
+
+  Future<void> _initializeNotifications() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const DarwinInitializationSettings initializationSettingsDarwin =
+    DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      // Remove: onDidReceiveLocalNotification (not supported in v15+)
+    );
+
+    const InitializationSettings initializationSettings =
+    InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsDarwin,
+    );
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        debugPrint('Notification tapped. Payload: ${response.payload}');
+        // Handle notification tap here
+      },
+    );
+
+    if (Platform.isAndroid) {
+      final androidImplementation =
+      flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+      >();
+
+      final granted =
+      await androidImplementation?.requestNotificationsPermission();
+      debugPrint("Android notification permission granted: $granted");
+    }
+
+    if (Platform.isIOS) {
+      final iosImplementation =
+      flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+      >();
+
+      await iosImplementation?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+      debugPrint('iOS notification permissions requested');
+    }
   }
 
   @override
@@ -77,9 +139,9 @@ class _SuperAdminDashboardScreenState extends State<SuperAdminDashboardScreen> {
                     ),
                     CustomElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context, false);
+                        Navigator.pop(context, true);
                         SystemNavigator.pop();
-                        // exit(0);
+                        exit(0);
                       },
                       // backgroundColor: Colors.red,
                       borderColor: Colors.red,

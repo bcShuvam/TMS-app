@@ -159,26 +159,26 @@ class _CreateIssueScreenState extends State<CreateIssueScreen> {
                         );
                       },
                     ),
-                    const SizedBox(height: 16),
-                    Consumer<CustomAudioProvider>(
-                      builder: (context, audioProvider, _) {
-                        return CustomTextFromField(
-                          controller: issueProvider.audioFileTextController,
-                          labelText: 'Voice Message',
-                          readOnly: true,
-                          applySuffixIcon: true,
-                          suffixIcon: InkWell(
-                            onTap: () {
-                              audioProvider.recordAudio();
-                              // issueProvider.setImage(audioProvider.imageName);
-                              print(audioProvider.isRecording ? 'Stop recording' : 'Start recording');
-                            },
-                            child: Icon(audioProvider.isRecording ? FontAwesomeIcons.pause : FontAwesomeIcons.microphone, color: audioProvider.isRecording ? Colors.red : Colors.black,),
-                          ),
-                          validator: (value) {},
-                        );
-                      },
-                    ),
+                    // const SizedBox(height: 16),
+                    // Consumer<CustomAudioProvider>(
+                    //   builder: (context, audioProvider, _) {
+                    //     return CustomTextFromField(
+                    //       controller: issueProvider.audioFileTextController,
+                    //       labelText: 'Voice Message',
+                    //       readOnly: true,
+                    //       applySuffixIcon: true,
+                    //       suffixIcon: InkWell(
+                    //         onTap: () {
+                    //           audioProvider.recordAudio();
+                    //           // issueProvider.setImage(audioProvider.imageName);
+                    //           print(audioProvider.isRecording ? 'Stop recording' : 'Start recording');
+                    //         },
+                    //         child: Icon(audioProvider.isRecording ? FontAwesomeIcons.pause : FontAwesomeIcons.microphone, color: audioProvider.isRecording ? Colors.red : Colors.black,),
+                    //       ),
+                    //       validator: (value) {},
+                    //     );
+                    //   },
+                    // ),
                     const SizedBox(height: 16),
                     CustomTextFromField(
                       controller: issueProvider.deadLineDateTimeTextController,
